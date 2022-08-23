@@ -64,7 +64,6 @@ export default function EditProfile({ match }) {
     photo: '',
     email: '',
     password: '',
-    privacy: 0,
 
     redirectToProfile: false,
     error: '',
@@ -84,7 +83,9 @@ export default function EditProfile({ match }) {
       } else {
         console.log("DATTA==>")
         console.log(data)
-        setValues({...values, id: data.id, first_name: data.profile.first_name, middle_name: data.profile.middle_name, last_name: data.profile.last_name, photo: data.profile.profile_pic, privacy: data.profile.privacy, email: data.email, about: data.profile.about})
+        setValues({...values, id: data.id, first_name: data.first_name, middle_name: data.middle_name, last_name: data.last_name, photo: data.profile_pic, email: data.email, about: data.about})
+        console.log("values")
+        console.log(values)
       }
     })
     return function cleanup(){
@@ -122,7 +123,6 @@ export default function EditProfile({ match }) {
       : event.target.value
     //userData.set(name, value)
     setValues({...values, [name]: value })
-    console.log(values);
   }
     const photoUrl = values.id
                  ? `/api/user/photo/${values.id}?${new Date().getTime()}`
@@ -131,6 +131,7 @@ export default function EditProfile({ match }) {
     if (values.redirectToProfile) {
       return (<Redirect to={'/user/' + match.params.username}/>)
     }
+
     return (
       <Card className={classes.card}>
         <CardContent>

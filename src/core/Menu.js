@@ -16,7 +16,10 @@ const isActive = (history, path) => {
 }
 
 const redirectToChat = () => {
-   window.location.href = 'http://0.0.0.0:8000/chat/'
+  const token = auth.isAuthenticated()['token']
+  console.log(token)
+  const chat_url = 'http://0.0.0.0:8000/chat/?token='.concat(token) 
+   window.location.href = chat_url
 }
 
 const Menu = withRouter(({history}) => (

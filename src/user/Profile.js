@@ -127,7 +127,7 @@ export default function Profile({ match }) {
             <ListItemAvatar>
               <Avatar src={photoUrl} className={classes.bigAvatar}/>
             </ListItemAvatar>
-            <ListItemText primary={values.user.username} secondary={values.user.email}/> {
+            <ListItemText primary={values.user.full_name} secondary={values.user.email}/> {
              auth.isAuthenticated().user && auth.isAuthenticated().user.username == values.user.username
              ? (<ListItemSecondaryAction>
                   <Link to={"/user/edit/" + values.user.username}>
@@ -142,7 +142,7 @@ export default function Profile({ match }) {
           </ListItem>
           <Divider/>
           <ListItem>
-            <ListItemText primary={"test"} secondary={"Joined: " + (
+            <ListItemText primary={values.user.about} secondary={"Joined: " + (
               new Date(values.user.date_joined)).toDateString()}/>
           </ListItem>
         </List>
