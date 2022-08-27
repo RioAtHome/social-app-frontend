@@ -53,7 +53,7 @@ export default function Post (props){
   const classes = useStyles()
   const jwt = auth.isAuthenticated()
   const checkLike = (likes) => {
-    let match = likes.indexOf(jwt.user._id) !== -1
+    let match = likes.indexOf(jwt.user.username) !== -1
     return match
   }
   const [values, setValues] = useState({
@@ -62,9 +62,9 @@ export default function Post (props){
     comments: props.post.comments
   })
   
-  // useEffect(() => {
-  //   setValues({...values, like:checkLike(props.post.likes), likes: props.post.likes.length, comments: props.post.comments})
-  // }, [])
+  useEffect(() => {
+    setValues({...values, like:checkLike(props.post.likes), likes: props.post.likes.length, comments: props.post.comments})
+  }, [])
 
   
 
@@ -74,7 +74,7 @@ export default function Post (props){
       username: jwt.user.username
     }, {
       t: jwt.token
-    }, props.post._id).then((data) => {
+    }, props.post.id).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
@@ -89,7 +89,7 @@ export default function Post (props){
 
   const deletePost = () => {   
     remove({
-      postId: props.post._id
+      postId: props.post.id
     }, {
       t: jwt.token
     }).then((data) => {
@@ -100,31 +100,31 @@ export default function Post (props){
       }
     })
   }
-
+    console.log(props.post)
     return (
       <Card className={classes.card}>
         <CardHeader
             avatar={
-              <Avatar src={'/api/user/photo/'+props.post.postedBy.username}/>
+              <Avatar src={'http://0.0.0.0:8000/api/user/photo/'+props.post.username}/>
             }
-            action={props.post.postedBy._id === auth.isAuthenticated().user._id &&
+            action={props.post.username.id === auth.isAuthenticated().user.id &&
               <IconButton onClick={deletePost}>
                 <DeleteIcon />
               </IconButton>
             }
-            title={<Link to={"/user/" + props.post.postedBy._id}>{props.post.postedBy.name}</Link>}
-            subheader={(new Date(props.post.created)).toDateString()}
+            title={<Link to={"/user/" + props.post.username}>{props.post.username}</Link>}
+            subheader={(new Date(props.post.created_at)).toDateString()}
             className={classes.cardHeader}
           />
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
             {props.post.text}
           </Typography>
-          {props.post.photo &&
+          {props.post.image &&
             (<div className={classes.photo}>
               <img
                 className={classes.media}
-                src={'/api/posts/photo/'+props.post._id}
+                src={'http://0.0.0.0:8000/api/storage/'+ props.post.image}
                 />
             </div>)}
         </CardContent>
@@ -141,7 +141,7 @@ export default function Post (props){
               </IconButton> <span>{values.comments.length}</span>
         </CardActions>
         <Divider/>
-        <Comments postId={props.post._id} comments={values.comments} updateComments={updateComments}/>
+        <Comments postId={props.post.id} comments={values.comments} updateComments={updateComments}/>
       </Card>
     )
   

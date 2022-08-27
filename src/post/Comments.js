@@ -49,7 +49,7 @@ export default function Comments (props) {
     if(event.keyCode == 13 && event.target.value){
       event.preventDefault()
       comment({
-        userId: jwt.user._id
+        username: jwt.user.username
       }, {
         t: jwt.token
       }, props.postId, {text: text}).then((data) => {
@@ -65,7 +65,7 @@ export default function Comments (props) {
 
   const deleteComment = comment => event => {
     uncomment({
-      userId: jwt.user._id
+      username: jwt.user.username
     }, {
       t: jwt.token
     }, props.postId, comment).then((data) => {
@@ -80,11 +80,11 @@ export default function Comments (props) {
     const commentBody = item => {
       return (
         <p className={classes.commentText}>
-          <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link><br/>
+          <Link to={"/user/" + item.username}>{item.username}</Link><br/>
           {item.text}
           <span className={classes.commentDate}>
-            {(new Date(item.created)).toDateString()} |
-            {auth.isAuthenticated().user._id === item.postedBy._id &&
+            {(new Date(item.created_at)).toDateString()} |
+            {auth.isAuthenticated().user.username === item.username &&
               <Icon onClick={deleteComment(item)} className={classes.commentDelete}>delete</Icon> }
           </span>
         </p>
@@ -94,7 +94,7 @@ export default function Comments (props) {
     return (<div>
         <CardHeader
               avatar={
-                <Avatar className={classes.smallAvatar} src={'/api/user/photo/'+auth.isAuthenticated().user._id}/>
+                <Avatar className={classes.smallAvatar} src={'http://0.0.0.0:8000/api/user/photo/'+auth.isAuthenticated().user.username}/>
               }
               title={ <TextField
                 onKeyDown={addComment}
@@ -110,7 +110,7 @@ export default function Comments (props) {
         { props.comments.map((item, i) => {
             return <CardHeader
                       avatar={
-                        <Avatar className={classes.smallAvatar} src={'/api/user/photo/'+item.postedBy._id}/>
+                        <Avatar className={classes.smallAvatar} src={'0.0.0.0:8000/api/user/photo/'+item.username}/>
                       }
                       title={commentBody(item)}
                       className={classes.cardHeader}

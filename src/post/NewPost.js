@@ -73,7 +73,7 @@ export default function NewPost (props){
     postData.append('text', values.text)
     postData.append('photo', values.photo)
     create({
-      userId: jwt.user.username
+      username: jwt.user.username
     }, {
       t: jwt.token
     }, postData).then((data) => {
@@ -91,7 +91,7 @@ export default function NewPost (props){
       : event.target.value
     setValues({...values, [name]: value })
   }
-  const photoURL = values.user.username ?'/api/user/photo/'+ values.user.username : '/api/user/defaultphoto'
+  const photoURL = `http://0.0.0.0:8000/api/user/photo/${values.user.username}`
     return (<div className={classes.root}>
       <Card className={classes.card}>
       <CardHeader

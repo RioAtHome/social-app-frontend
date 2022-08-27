@@ -102,7 +102,7 @@ export default function EditProfile({ match }) {
     values.email && userData.append('email', values.email)
     values.password && userData.append('password', values.password)
     values.about && userData.append('about', values.about)
-    values.photo && userData.append('photo', values.photo)
+    values.profile_pic && userData.append('profile_pic', values.profile_pic)
     
     update({
       username: match.params.username
@@ -118,15 +118,13 @@ export default function EditProfile({ match }) {
   }
 
   const handleChange = name => event => {
-    const value = name === 'photo'
+    const value = name === 'profile_pic'
       ? event.target.files[0]
       : event.target.value
     //userData.set(name, value)
     setValues({...values, [name]: value })
   }
-    const photoUrl = values.id
-                 ? `/api/user/photo/${values.id}?${new Date().getTime()}`
-                 : '/api/user/defaultphoto'
+    const photoUrl = `http://0.0.0.0:8000/api/user/photo/${jwt.user.username}`
 
     if (values.redirectToProfile) {
       return (<Redirect to={'/user/' + match.params.username}/>)
@@ -139,13 +137,13 @@ export default function EditProfile({ match }) {
             Edit Profile
           </Typography>
           <Avatar src={photoUrl} className={classes.bigAvatar}/><br/>
-          <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
+          <input accept="image/*" onChange={handleChange('profile_pic')} className={classes.input} id="icon-button-file" type="file" />
           <label htmlFor="icon-button-file">
             <Button variant="contained" color="default" component="span">
               Upload
               <FileUpload/>
             </Button>
-          </label> <span className={classes.filename}>{values.photo ? values.photo.name : ''}</span><br/>
+          </label> <span className={classes.filename}>{values.profile_pic ? values.profile_pic.name : ''}</span><br/>
           <TextField id="first_name" label="first name" className={classes.textField} value={values.first_name} onChange={handleChange('first_name')} margin="normal"/><br/>
           <TextField id="middle_name" label="middle name" className={classes.textField} value={values.middle_name} onChange={handleChange('middle_name')} margin="normal"/><br/>
           <TextField id="last_name" label="last name" className={classes.textField} value={values.last_name} onChange={handleChange('last_name')} margin="normal"/><br/>

@@ -101,6 +101,7 @@ export default function FindPeople() {
 
   }
   console.log(values, 'this is values')
+
     return (<div>
       <Paper className={classes.root} elevation={4}>
         <Typography type="title" className={classes.title}>
@@ -112,7 +113,7 @@ export default function FindPeople() {
               return <span key={i}>
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>
-                      <Avatar src={'/api/user/photo/'+item.username}/>
+                      <Avatar src={'http://0.0.0.0:8000/api/user/photo/'+item.username}/>
                   </ListItemAvatar>
                   <ListItemText primary={item.username}/>
                   <ListItemSecondaryAction className={classes.follow}>

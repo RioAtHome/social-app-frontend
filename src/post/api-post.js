@@ -1,6 +1,6 @@
 const create = async (params, credentials, post) => {
   try {
-    let response = await fetch('/api/posts/new/'+ params.username, {
+    let response = await fetch('http://0.0.0.0:8000/api/post/posts/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -16,7 +16,7 @@ const create = async (params, credentials, post) => {
 
 const listByUser = async (params, credentials) => {
   try {
-    let response = await fetch('/api/posts/by/'+ params.username, {
+    let response = await fetch('http://0.0.0.0:8000/api/post/by/'+ params.username, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +32,7 @@ const listByUser = async (params, credentials) => {
 
 const listNewsFeed = async (params, credentials, signal) => {
   try {
-    let response = await fetch('http://0.0.0.0:8000/api/posts/feed/'+ params.username, {
+    let response = await fetch('http://0.0.0.0:8000/api/post/posts/', {
       method: 'GET',
       signal: signal,
       headers: {
@@ -49,7 +49,7 @@ const listNewsFeed = async (params, credentials, signal) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch('/api/posts/' + params.postId, {
+    let response = await fetch('http://0.0.0.0:8000/api/post/post-detail/' + params.postId, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -66,14 +66,14 @@ const remove = async (params, credentials) => {
 
 const like = async (params, credentials, postId) => {
   try {
-    let response = await fetch('/api/posts/like/', {
-      method: 'PUT',
+    let response = await fetch('http://0.0.0.0:8000/api/post/like-post/?post_id=' + postId, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.username, postId: postId})
+      body: JSON.stringify({username:params.username, postId: postId})
     })
     return await response.json()
   } catch(err) {
@@ -84,14 +84,14 @@ const like = async (params, credentials, postId) => {
 
 const unlike = async (params, credentials, postId) => {
   try {
-    let response = await fetch('/api/posts/unlike/', {
-      method: 'PUT',
+    let response = await fetch('http://0.0.0.0:8000/api/post/like-post/?post_id=' + postId, {
+      method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.username, postId: postId})
+      body: JSON.stringify({user:params.username, postId: postId})
     })
     return await response.json()
   } catch(err) {
@@ -102,14 +102,14 @@ const unlike = async (params, credentials, postId) => {
 
 const comment = async (params, credentials, postId, comment) => {
   try {
-    let response = await fetch('/api/posts/comment/', {
-      method: 'PUT',
+    let response = await fetch('http://0.0.0.0:8000/api/post/comment-post/?post_id=' + postId, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.username, postId: postId, comment: comment})
+      body: JSON.stringify({username:params.username, postId: postId, text: comment.text})
     })
     return await response.json()
   } catch(err) {
@@ -120,14 +120,14 @@ const comment = async (params, credentials, postId, comment) => {
 
 const uncomment = async (params, credentials, postId, comment) => {
   try {
-    let response = await fetch('/api/posts/uncomment/', {
-      method: 'PUT',
+    let response = await fetch('http://0.0.0.0:8000/api/post/comment-post/?post_id=' + postId, {
+      method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.username, postId: postId, comment: comment})
+      body: JSON.stringify({username:params.username, postId: postId, text: comment.text})
     })
     return await response.json()
   } catch(err) {

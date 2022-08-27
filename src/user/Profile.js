@@ -110,13 +110,10 @@ export default function Profile({ match }) {
     updatedPosts.splice(index, 1)
     setPosts(updatedPosts)
   }
-    const photoUrl = values.user.username
-              ? `/api/user/photo/${values.user.username}?${new Date().getTime()}`
-              : '/api/user/defaultphoto'
+    const photoUrl = `http://0.0.0.0:8000/api/user/photo/${values.user.username}`
     if (values.redirectToSignin) {
       return <Redirect to='/signin'/>
     }
-    console.log(values)
     return (
       <Paper className={classes.root} elevation={4}>
         <Typography variant="h6" className={classes.title}>
